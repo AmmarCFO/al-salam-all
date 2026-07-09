@@ -1,0 +1,8 @@
+{
+  "name": "Salam Executive",
+  "description": "Property management dashboard for Mathwaa studies.",
+  "requestFramePermissions": [],
+  "majorCapabilities": [
+    "MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"
+  ]
+}
