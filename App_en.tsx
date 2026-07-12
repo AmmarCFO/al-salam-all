@@ -208,6 +208,15 @@ const App_en: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
   const effectiveOccupancy = occupancyRate;
   const effectiveRevenue = Math.round(baseFinancials.revenue * effectiveOccupancy);
 
+  // Helper dynamic card values
+  const ltrScen = SCENARIOS.find(s => s.id === 'ltr') || SCENARIOS[0];
+  const strScen = SCENARIOS.find(s => s.id === 'str') || SCENARIOS[0];
+  const combinedScen = SCENARIOS.find(s => s.id === 'combined') || SCENARIOS[0];
+
+  const ltrRevenueValue = Math.round(ltrScen.financials[activeCase].revenue * occupancyRate);
+  const strRevenueValue = Math.round(strScen.financials[activeCase].revenue * occupancyRate);
+  const combinedRevenueValue = Math.round(combinedScen.financials[activeCase].revenue * occupancyRate);
+
   const strRatio = activeModel === 'combined' 
     ? 2910000 / 4241100 
     : (activeModel === 'str' ? 1.0 : 0.0);
@@ -347,7 +356,7 @@ const App_en: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
               Hayy Al Salam<span className="text-[#8A6E99]">.</span>
             </h1>
             <p className="text-xs sm:text-xl text-gray-500 max-w-3xl mx-auto font-medium leading-relaxed tracking-tight px-4 mb-12">
-                Riyadh Luxury Property Analysis under <span className="text-[#8A6E99] font-bold">Hybrid Models</span>. 23 Unified Premium Units comprising 15 × 2BR and 8 × 3BR, divided into short-term (STR) and long-term (LTR) operations.
+                Riyadh Executive Property Analysis under <span className="text-[#8A6E99] font-bold">Hybrid Models</span>. 23 Unified Premium Units comprising 15 × 2BR and 8 × 3BR, divided into short-term (STR) and long-term (LTR) operations.
             </p>
           </div>
         </FadeInUp>
@@ -408,8 +417,8 @@ const App_en: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
                 <p className="text-xs text-gray-500 leading-relaxed">Stable 1-year corporate leases, zero tenant turnover friction, and steady yields.</p>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between w-full">
-                <span className="text-[10px] text-gray-400 font-mono">BASE YR1 REVENUE</span>
-                <span className="text-sm font-extrabold text-amber-600">SAR 1,331,100</span>
+                <span className="text-[10px] text-gray-400 font-mono">REVENUE</span>
+                <span className="text-sm font-extrabold text-amber-600">SAR {ltrRevenueValue.toLocaleString('en-US')}</span>
               </div>
             </button>
 
@@ -435,8 +444,8 @@ const App_en: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
                 <p className="text-xs text-gray-500 leading-relaxed">Premium daily pricing capturing tourism surges, weekend bookings, and seasonal peaks.</p>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between w-full">
-                <span className="text-[10px] text-gray-400 font-mono">BASE YR1 REVENUE</span>
-                <span className="text-sm font-extrabold text-amber-500">SAR 2,910,000</span>
+                <span className="text-[10px] text-gray-400 font-mono">REVENUE</span>
+                <span className="text-sm font-extrabold text-amber-500">SAR {strRevenueValue.toLocaleString('en-US')}</span>
               </div>
             </button>
 
@@ -462,8 +471,8 @@ const App_en: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
                 <p className="text-xs text-gray-500 leading-relaxed">Optimal blend: 15 units running STR to milk peaks, and 8 stable units under permanent contracts.</p>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between w-full">
-                <span className="text-[10px] text-gray-400 font-mono">BASE YR1 REVENUE</span>
-                <span className="text-sm font-extrabold text-[#4A2C5A]">SAR 4,241,100</span>
+                <span className="text-[10px] text-gray-400 font-mono">REVENUE</span>
+                <span className="text-sm font-extrabold text-[#4A2C5A]">SAR {combinedRevenueValue.toLocaleString('en-US')}</span>
               </div>
             </button>
           </div>

@@ -79,7 +79,7 @@ const DigitalLedger: React.FC<{
         <div className="w-full space-y-6">
             <div className="flex justify-between items-end border-b border-white/10 pb-4">
                 <div className="text-right">
-                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-0.5 block animate-pulse animate-pulse">الإيرادات المحسوبة بالتناسب</span>
+                    <span className="text-[10px] font-bold uppercase tracking-widest text-white/40 mb-0.5 block animate-pulse animate-pulse">الإيرادات</span>
                     <span className="text-xl sm:text-2xl font-bold text-white tracking-tight tabular-nums">{formatCurrency(revenue)}</span>
                 </div>
                 <div className="text-left">
@@ -207,6 +207,15 @@ const App_ar: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
   // Dynamic Calculations
   const effectiveOccupancy = occupancyRate;
   const effectiveRevenue = Math.round(baseFinancials.revenue * effectiveOccupancy);
+
+  // Helper dynamic card values
+  const ltrScen = SCENARIOS.find(s => s.id === 'ltr') || SCENARIOS[0];
+  const strScen = SCENARIOS.find(s => s.id === 'str') || SCENARIOS[0];
+  const combinedScen = SCENARIOS.find(s => s.id === 'combined') || SCENARIOS[0];
+
+  const ltrRevenueValue = Math.round(ltrScen.financials[activeCase].revenue * occupancyRate);
+  const strRevenueValue = Math.round(strScen.financials[activeCase].revenue * occupancyRate);
+  const combinedRevenueValue = Math.round(combinedScen.financials[activeCase].revenue * occupancyRate);
  
   // Combined allocation: 15 units out of 23 units are STR (pro-rata index)
   const strRatio = activeModel === 'combined' 
@@ -379,7 +388,7 @@ const App_ar: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
               حي السلام<span className="text-[#4A2C5A]">.</span>
             </h1>
             <p className="text-sm sm:text-2xl text-gray-500 max-w-3xl mx-auto font-medium leading-relaxed tracking-tight px-4 mb-8">
-                تحليل العقار الفخم بالرياض في إطار <span className="text-[#4A2C5A] font-bold">النماذج الهجينة المشتركة</span>. ٢٣ وحدة سكنية متكاملة تشمل ١٥ شقة غرفتين وصالة و ٨ شقق ثلاث غرف وصالة بنوعيها قصير وطويل الأجل.
+                تحليل العقار التنفيذي بالرياض في إطار <span className="text-[#4A2C5A] font-bold">النماذج الهجينة المشتركة</span>. ٢٣ وحدة سكنية متكاملة تشمل ١٥ شقة غرفتين وصالة و ٨ شقق ثلاث غرف وصالة بنوعيها قصير وطويل الأجل.
             </p>
           </div>
         </FadeInUp>
@@ -440,8 +449,8 @@ const App_ar: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
                 <p className="text-xs text-gray-500 leading-relaxed font-cairo">عقود سنوية مستقرة للشركات والتنفيذيين بالرياض، تلغي فترات الشاغر وهدر الوقت، وتوفر موازنة ريعية آمنة.</p>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between w-full">
-                <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">الإيرادات بمستوى الأساس</span>
-                <span className="text-sm font-extrabold text-[#AA7C11]">١,٣٣١,١٠٠ ر.س</span>
+                <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">الإيرادات</span>
+                <span className="text-sm font-extrabold text-[#AA7C11]">{ltrRevenueValue.toLocaleString('ar-SA')} ر.س</span>
               </div>
             </button>
 
@@ -464,11 +473,11 @@ const App_ar: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
                   <span className="text-xs font-mono font-bold text-gray-400">١٥ وحدة</span>
                 </div>
                 <h4 className="font-bold text-gray-900 text-base mb-1 font-cairo">تأجير يومي قصير الأجل</h4>
-                <p className="text-xs text-gray-500 leading-relaxed font-cairo">تسعير يومي فليكس يقتنص طفرات المعارض السياحية ومواسم الرياض الترفيهية لرفع الهامش التشغيلي لأقصاه.</p>
+                <p className="text-xs text-gray-500 leading-relaxed font-cairo">تسعير يومي مرن يقتنص طفرات مواسم الرياض وضغط زيارات العوائل من خارج الرياض للمستشفيات والجهات القريبة من العقار</p>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between w-full">
-                <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">الإيرادات بمستوى الأساس</span>
-                <span className="text-sm font-extrabold text-amber-600">٢,٩١٠,٠٠٠ ر.س</span>
+                <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">الإيرادات</span>
+                <span className="text-sm font-extrabold text-amber-600">{strRevenueValue.toLocaleString('ar-SA')} ر.س</span>
               </div>
             </button>
 
@@ -494,8 +503,8 @@ const App_ar: React.FC<{ onToggleLanguage: () => void }> = ({ onToggleLanguage }
                 <p className="text-xs text-gray-500 leading-relaxed font-cairo">الخلطة الاستراتيجية: ١٥ وحدة يومي للمواسم الدافئة عوائدياً، و٨ وحدات عقود طويلة الأجل كركيزة حماية تشغيلية.</p>
               </div>
               <div className="mt-4 pt-4 border-t border-gray-100 flex items-center justify-between w-full">
-                <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">الإيرادات بمستوى الأساس</span>
-                <span className="text-sm font-extrabold text-[#4A2C5A]">٤,٢٤١,١٠٠ ر.س</span>
+                <span className="text-[10px] text-gray-400 font-mono uppercase tracking-wider">الإيرادات</span>
+                <span className="text-sm font-extrabold text-[#4A2C5A]">{combinedRevenueValue.toLocaleString('ar-SA')} ر.س</span>
               </div>
             </button>
           </div>
